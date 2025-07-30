@@ -13,6 +13,8 @@ import { FetchError } from "ofetch"
 
 import { MetaError } from "~/meta-handler"
 import { staticRoute } from "~/router/static"
+import { rssProxyRoute } from "~/router/rss-proxy"
+import { aiRoute } from "~/router/ai"
 
 import { globalRoute } from "./src/router/global"
 import { ogRoute } from "./src/router/og"
@@ -78,9 +80,13 @@ export const createApp = async () => {
     await devVite.registerDevViteServer(app)
   }
 
-  ogRoute(app)
-  globalRoute(app)
-  staticRoute(app)
+  // 注册路由
+  // 注册路由 - 按优先级顺序
+  rssProxyRoute(app)    // API 路由
+  aiRoute(app)          // AI API 路由  
+  ogRoute(app)          // OG 路由
+  staticRoute(app)      // 静态页面路由
+  globalRoute(app)      // 通配符路由，必须最后
 
   return app
 }

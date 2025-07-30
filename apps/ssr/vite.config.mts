@@ -50,7 +50,8 @@ export default defineConfig({
 
   server: {
     proxy: {
-      "/api": {
+      // 排除我们本地定义的 API 路由
+      "^/api/(?!rss-proxy|test).*": {
         target: "https://api.follow.is",
         changeOrigin: true,
         rewrite(path) {
